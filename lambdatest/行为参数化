@@ -1,0 +1,42 @@
+
+应对需求多变--行为参数化
+
+1.行为接口的抽象
+public interface PreFilter<T> {
+    boolean test(T t);
+}
+
+2.行为参数化方法定义（此步骤非必须）
+  private  static <T> List<T> filter(List<T> list, PreFilter<T> p){
+        ArrayList<T> result = new ArrayList<>();
+
+        for(T e: list){
+            if(p.test(e)){
+                result.add(e);
+            }
+        }
+        return result;
+    }
+
+3.行为参数化应用
+  3.1行为接口实例化
+  PreFilter<Apple> p =(Apple apple) -> "red".equals(apple.getColor()) && 20 <apple.getWeight();
+  3.2行为参数化方法调用
+  List<Apple> filter = filter(source, p);
+
+实例2：
+//1行为接口的抽象
+public interface MathOperation {
+   int operation(int a,int b);
+}
+
+//2行为参数化方法定义
+ private static int operate(int a,int b,MathOperation mathOperation){
+        return mathOperation.operation(a,b);
+    }
+
+//3行为参数化应用
+ //3.1行为接口实例化
+MathOperation addition=(int a,int b) -> a+b;
+ //3.2行为参数化方法调用
+System.out.println("(2) 10+5="+addition.operation(10,5));
